@@ -6,13 +6,13 @@ using UnityEngine;
 public class Pack
 {
     public string name;
-    public string question;
+    public string[] calls;
     public string[] responses;
 
     public Pack()
     {
         name = "";
-        question = "";
+        calls = new string[0];
         responses = new string[0];
     }
 }
