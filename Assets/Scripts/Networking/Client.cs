@@ -33,6 +33,11 @@ public class Client : MonoBehaviour
 
     public string connectToAddress;
 
+    void Start()
+    {
+        GameObject.Find("Address Field").GetComponent<InputField>().text = Network.player.ipAddress.ToString();
+    }
+
     public void Connect()
     {
         string pName = GameObject.Find("Name Field").GetComponent<InputField>().text;
