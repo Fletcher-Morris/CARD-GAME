@@ -22,8 +22,7 @@ public class Client : MonoBehaviour
 
     private float connectionTime;
     [SerializeField]
-    private bool isConnected = false;
-    [SerializeField]
+    public bool isConnected = false;
     private bool isStarted = false;
     private byte error;
 
@@ -32,9 +31,12 @@ public class Client : MonoBehaviour
     public GM gm;
     public PackManager packMan;
 
+    public string connectToAddress;
+
     public void Connect()
     {
         string pName = GameObject.Find("Name Field").GetComponent<InputField>().text;
+        connectToAddress = GameObject.Find("Address Field").GetComponent<InputField>().text;
         if(pName == "")
         {
             Debug.LogWarning("You must have a name!");
@@ -51,7 +53,7 @@ public class Client : MonoBehaviour
         HostTopology topo = new HostTopology(cc, MAX_CONNECTION);
 
         hostId = NetworkTransport.AddHost(topo, 0);
-        connectionId = NetworkTransport.Connect(hostId, "127.0.0.1", port, 0, out error);
+        connectionId = NetworkTransport.Connect(hostId, connectToAddress, port, 0, out error);
 
         connectionTime = Time.time;
         isConnected = true;

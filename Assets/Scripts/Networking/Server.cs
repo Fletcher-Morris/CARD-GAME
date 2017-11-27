@@ -76,6 +76,10 @@ public class Server : MonoBehaviour
                         OnNameIs(connectionId, splitData[1]);
                         break;
 
+                    case "PACKSREQUEST":
+                        packMan.SendPacksInUse();
+                        break;
+
                     case "CNN":
                         break;
 

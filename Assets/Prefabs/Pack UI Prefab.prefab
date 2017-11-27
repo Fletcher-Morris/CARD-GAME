@@ -177,8 +177,8 @@ MonoBehaviour:
   m_IgnoreLayout: 0
   m_MinWidth: -1
   m_MinHeight: -1
-  m_PreferredWidth: -1
-  m_PreferredHeight: 100
+  m_PreferredWidth: 0
+  m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
@@ -201,8 +201,8 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: b73f7003fbf346649960de462d37b382, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -248,6 +248,8 @@ MonoBehaviour:
     name: 
     calls: []
     responses: []
+  tickSprite: {fileID: 21300000, guid: b73f7003fbf346649960de462d37b382, type: 3}
+  crossSprite: {fileID: 21300000, guid: b490bb0dcd7e6684cbc78b27632f2114, type: 3}
   isAdded: 0
 --- !u!114 &114589378103306218
 MonoBehaviour:

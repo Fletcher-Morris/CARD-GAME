@@ -15,6 +15,9 @@ public class PackUiController : MonoBehaviour
 
     public Pack packData;
 
+    public Sprite tickSprite;
+    public Sprite crossSprite;
+
     public bool isAdded = false;
 
     void Start()
@@ -32,11 +35,13 @@ public class PackUiController : MonoBehaviour
         {
             transform.SetParent(addedPacksPanel.transform);
             packManager.AddPack(packData);
+            packButton.image.sprite = crossSprite;
         }
         else
         {
             transform.SetParent(loadedPacksPanel.transform);
             packManager.RemovePack(packData);
+            packButton.image.sprite = tickSprite;
         }
     }
 }

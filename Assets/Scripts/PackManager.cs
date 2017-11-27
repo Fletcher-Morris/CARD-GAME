@@ -120,12 +120,19 @@ public class PackManager : MonoBehaviour
 
     public void RefreshPacks()
     {
-        ClearPacks();
-        LoadAllPacks();
-
-        if (server.isStarted)
+        if (client.isConnected)
         {
-            SendPacksInUse();
+            client.SendReliable("PACKSREQUEST|");
+        }
+        else
+        {
+            ClearPacks();
+            LoadAllPacks();
+
+            if (server.isStarted)
+            {
+                SendPacksInUse();
+            }
         }
     }
 
