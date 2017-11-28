@@ -24,6 +24,9 @@ public class Server : MonoBehaviour
 
     private List<ServerClient> clients = new List<ServerClient>();
 
+    public List<Card> unplayedCards;
+    public List<Card> playedCards;
+
     public void StartServer()
     {
         NetworkTransport.Init();
