@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
-using UnityEngine.UI;
 
 public class PackManager : MonoBehaviour
 {
@@ -198,5 +197,13 @@ public class PackManager : MonoBehaviour
                 Destroy(child);
             }
         }
+    }
+
+    public void OpenPackFolder()
+    {
+        string path = Application.dataPath + "/Packs/";
+
+        path = path.Replace(@"/", @"\");
+        System.Diagnostics.Process.Start("explorer.exe", "/select," + path);
     }
 }

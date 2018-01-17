@@ -25,7 +25,7 @@ public class Client : MonoBehaviour
     public bool isConnected = false;
     private bool isStarted = false;
     private byte error;
-
+    [SerializeField]
     private string playerName;
 
     public GM gm;
@@ -36,18 +36,21 @@ public class Client : MonoBehaviour
     void Start()
     {
         GameObject.Find("Address Field").GetComponent<InputField>().text = Network.player.ipAddress.ToString();
+
+        PlayerName.Init();
+        playerName = PlayerName.GetName();
+        GameObject.Find("Name Field").GetComponent<InputField>().text = playerName;
     }
 
     public void Connect()
     {
-        string pName = GameObject.Find("Name Field").GetComponent<InputField>().text;
+        string playerName = GameObject.Find("Name Field").GetComponent<InputField>().text;
         connectToAddress = GameObject.Find("Address Field").GetComponent<InputField>().text;
-        if(pName == "")
+        if(playerName == "")
         {
             Debug.LogWarning("You must have a name!");
-            return;
+            playerName = PlayerName.GetName();
         }
-        playerName = pName;
 
         NetworkTransport.Init();
         ConnectionConfig cc = new ConnectionConfig();
