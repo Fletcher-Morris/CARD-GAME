@@ -19,26 +19,24 @@ public static class PlayerName
         if (steamInit)
         {
             m_name = SteamFriends.GetPersonaName();
-            PlayerPrefs.SetString("PlayerName", m_name);
         }
         else
         {
             m_name = PlayerPrefs.GetString("PlayerName");
         }
+
+        SetName(m_name);
     }
 
     public static string GetName()
     {
-        if (steamInit)
-        {
-            m_name = SteamFriends.GetPersonaName();
-            PlayerPrefs.SetString("PlayerName", m_name);
-        }
-        else
-        {
-            m_name = PlayerPrefs.GetString("PlayerName");
-        }
-
         return m_name;
+    }
+
+    public static void SetName(string newName)
+    {
+        m_name = newName;
+        PlayerPrefs.SetString("PlayerName", newName);
+        Debug.Log("Set Name To: " + newName);
     }
 }

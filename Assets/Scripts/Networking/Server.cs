@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using System.Text;
+using UnityEngine.UI;
 
 public class Server : MonoBehaviour
 {
@@ -22,10 +23,19 @@ public class Server : MonoBehaviour
     public GM gm;
     public PackManager packMan;
 
+    [SerializeField]
     private List<ServerClient> clients = new List<ServerClient>();
 
     public List<Card> unplayedCards;
     public List<Card> playedCards;
+
+    [SerializeField]
+    private string hostName;
+
+    public void ChangeName(InputField field)
+    {
+        hostName = field.text;
+    }
 
     public void StartServer()
     {
@@ -44,6 +54,20 @@ public class Server : MonoBehaviour
         isStarted = true;
 
         Debug.Log("Started Server! : Error " + error + " : Port " + port);
+
+        CreateHostPlayer();
+    }
+
+    void CreateHostPlayer()
+    {
+        PlayerName.SetName(hostName);
+
+        ServerClient c = new ServerClient();
+        c.connectionId = 0;
+        c.playerName = PlayerName.GetName();
+        clients.Add(c);
+
+        UpdateClientsList();
     }
 
     void Update()
@@ -61,12 +85,12 @@ public class Server : MonoBehaviour
         NetworkEventType recData = NetworkTransport.Receive(out recHostId, out connectionId, out channelId, recBuffer, bufferSize, out dataSize, out error);
         switch (recData)
         {
-            case NetworkEventType.ConnectEvent:    //2
+            case NetworkEventType.ConnectEvent:
                 Debug.Log("Player " + connectionId + " has connected");
                 OnConnection(connectionId);
                 break;
 
-            case NetworkEventType.DataEvent:       //3
+            case NetworkEventType.DataEvent:
 
                 string msg = Encoding.Unicode.GetString(recBuffer, 0, dataSize);
                 Debug.Log("Recieving from " + connectionId + " : " + msg);
@@ -87,6 +111,7 @@ public class Server : MonoBehaviour
                         break;
 
                     case "DC":
+                        OnDisconnect(connectionId);
                         break;
 
                     default:
@@ -96,8 +121,8 @@ public class Server : MonoBehaviour
 
                 break;
 
-            case NetworkEventType.DisconnectEvent: //4
-                Debug.Log("Player " + connectionId + " has disconnected");
+            case NetworkEventType.DisconnectEvent:
+                OnDisconnect(connectionId);
                 break;
         }
     }
@@ -151,11 +176,35 @@ public class Server : MonoBehaviour
     private void OnNameIs(int cnnId, string name)
     {
         clients.Find(x => x.connectionId == cnnId).playerName = name;
-
         SendReliable("CNN|" + name + "|" + cnnId);
+        UpdateClientsList();
+    }
+
+    public void OnDisconnect(int cnnId)
+    {
+        if (clients.Find(x => x.connectionId == cnnId) != null)
+        {
+            Debug.Log("Player Disconnected: " + clients.Find(x => x.connectionId == cnnId).playerName);
+            clients.Remove(clients.Find(x => x.connectionId == cnnId));
+            SendReliable("DC|" + cnnId);
+            UpdateClientsList(); 
+        }
+    }
+
+
+
+    void UpdateClientsList()
+    {
+        string playerListString = "";
+        foreach (ServerClient c in clients)
+        {
+            playerListString += c.playerName + "\n";
+        }
+        GameObject.Find("Connected Players Text").GetComponent<Text>().text = playerListString;
     }
 }
 
+[System.Serializable]
 class ServerClient
 {
     public int connectionId;

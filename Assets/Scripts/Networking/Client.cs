@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 using System.Text;
+using UnityEngine.SceneManagement;
 
 public class Client : MonoBehaviour
 {
@@ -33,6 +34,8 @@ public class Client : MonoBehaviour
 
     public string connectToAddress;
 
+    private List<ServerClient> clients = new List<ServerClient>();
+
     void Start()
     {
         GameObject.Find("Address Field").GetComponent<InputField>().text = Network.player.ipAddress.ToString();
@@ -40,6 +43,11 @@ public class Client : MonoBehaviour
         PlayerName.Init();
         playerName = PlayerName.GetName();
         GameObject.Find("Name Field").GetComponent<InputField>().text = playerName;
+    }
+
+    public void ChangeName(InputField field)
+    {
+        playerName = field.text;
     }
 
     public void Connect()
@@ -51,6 +59,7 @@ public class Client : MonoBehaviour
             Debug.LogWarning("You must have a name!");
             playerName = PlayerName.GetName();
         }
+        PlayerName.SetName(playerName);
 
         NetworkTransport.Init();
         ConnectionConfig cc = new ConnectionConfig();
@@ -72,9 +81,14 @@ public class Client : MonoBehaviour
     }
 
     void Update()
-    {
+    {        
         if (!isConnected)
             return;
+
+        if (Input.GetKeyDown(KeyCode.Escape) && (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)))
+        {
+            DisconnectFromServer();
+        }
 
         int recHostId;
         int connectionId;
@@ -104,6 +118,7 @@ public class Client : MonoBehaviour
                         break;
 
                     case "DC":
+                        OnDisconnect(int.Parse(splitData[1]));
                         break;
 
                     case "PACKSINUSE":
@@ -151,6 +166,35 @@ public class Client : MonoBehaviour
 
     private void SpawnPlayer(string playerName, int cnnId)
     {
+        ServerClient newClient = new ServerClient();
+        newClient.connectionId = cnnId;
+        newClient.playerName = playerName;
+        clients.Add(newClient);
+        UpdateClientsList();
+    }
 
+    private void OnDisconnect(int cnnId)
+    {
+        Debug.Log("Player Disconnected: " + clients.Find(x => x.connectionId == cnnId).playerName);
+        clients.Remove(clients.Find(x => x.connectionId == cnnId));
+        UpdateClientsList();
+    }
+
+    public void DisconnectFromServer()
+    {
+        SendReliable("DC|");
+        SceneManager.LoadScene(0);
+    }
+
+
+
+    void UpdateClientsList()
+    {
+        string playerListString = "";
+        foreach (ServerClient c in clients)
+        {
+            playerListString += c.playerName + "\n";
+        }
+        GameObject.Find("Connected Players Text").GetComponent<Text>().text = playerListString;
     }
 }
