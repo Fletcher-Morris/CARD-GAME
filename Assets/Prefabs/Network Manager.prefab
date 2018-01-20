@@ -57,6 +57,10 @@ MonoBehaviour:
   isStarted: 0
   gm: {fileID: 0}
   packMan: {fileID: 0}
+  clients: []
+  unplayedCards: []
+  playedCards: []
+  hostName: 
 --- !u!114 &114204162481839830
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -69,6 +73,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isConnected: 0
-  isStarted: 0
+  playerName: 
   gm: {fileID: 0}
   packMan: {fileID: 0}
+  connectToAddress: 

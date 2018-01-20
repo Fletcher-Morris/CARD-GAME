@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using System.Text;
 using UnityEngine.UI;
+using System.Linq;
 
 public class Server : MonoBehaviour
 {
@@ -14,8 +15,8 @@ public class Server : MonoBehaviour
     private int hostId;
     private int webHostId;
 
-    public int reliableChannel;
-    public int unreliableChannel;
+    private int reliableChannel;
+    private int unreliableChannel;
     
     public bool isStarted = false;
     private byte error;
@@ -25,12 +26,13 @@ public class Server : MonoBehaviour
 
     [SerializeField]
     private List<ServerClient> clients = new List<ServerClient>();
-
-    public List<Card> unplayedCards;
-    public List<Card> playedCards;
-
     [SerializeField]
     private string hostName;
+
+
+
+    public int turnCount = 0;
+    public List<Card> cardList;
 
     public void ChangeName(InputField field)
     {
@@ -201,6 +203,32 @@ public class Server : MonoBehaviour
             playerListString += c.playerName + "\n";
         }
         GameObject.Find("Connected Players Text").GetComponent<Text>().text = playerListString;
+    }
+
+
+
+
+
+
+    public void NewTurn()
+    {
+        turnCount++;
+
+
+    }
+
+    private void ShuffleCards()
+    {
+        cardList = cardList.OrderBy(x => Random.value).ToList();
+    }
+
+    private void SendRandomCard(ServerClient c)
+    {
+        Card card = cardList[0];
+        cardList.RemoveAt(0);
+        cardList.Add(card);
+        string data = "CARDDATA|";
+        Send(data + card.text, reliableChannel, c.connectionId);
     }
 }
 

@@ -939,7 +939,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1763109867}
   m_Direction: 2
   m_Value: 1
-  m_Size: 1
+  m_Size: 0.9999999
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1517,6 +1517,7 @@ MonoBehaviour:
   whiteCardPrefab: {fileID: 0}
   deckCardPrefab: {fileID: 1214512190580828, guid: 2ded230f3b6eb5f4a9ed94cf95041955,
     type: 2}
+  isServer: 0
   cardDeckPanel: {fileID: 386070011}
   cardsPerDeck: 9
   rotationAtEdges: 20
@@ -1920,7 +1921,7 @@ Prefab:
     - target: {fileID: 224543848332763188, guid: da7555712c3ebef41acadae755ade175,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -100
       objectReference: {fileID: 0}
     - target: {fileID: 224543848332763188, guid: da7555712c3ebef41acadae755ade175,
         type: 2}
@@ -1930,7 +1931,7 @@ Prefab:
     - target: {fileID: 224543848332763188, guid: da7555712c3ebef41acadae755ade175,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 180
       objectReference: {fileID: 0}
     - target: {fileID: 224924372221781388, guid: da7555712c3ebef41acadae755ade175,
         type: 2}
@@ -2579,7 +2580,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 512532832}
   m_Direction: 2
   m_Value: 1
-  m_Size: 1
+  m_Size: 0.99999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

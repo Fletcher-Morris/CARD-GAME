@@ -12,7 +12,7 @@ public class GM : MonoBehaviour
     public GameObject whiteCardPrefab;
     public GameObject deckCardPrefab;
 
-    private bool isServer = false;
+    public bool isServer = false;
 
     public GameObject cardDeckPanel;
     public int cardsPerDeck = 9;
